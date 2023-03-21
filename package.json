@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Week 9 assignment",
   "main": "index.js",
-  "author": "{YOUR_NAME}",
+  "author": "Aldiansyah Dwi Putra",
   "license": "MIT",
   "devDependencies": {
     "tailwindcss": "^3.2.7"
