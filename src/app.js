@@ -22,16 +22,12 @@ menuBtn.addEventListener('click', event => {
 
   if (isExpanded === 'false') {
     menuBtn.setAttribute('aria-expanded', true);
-    icons[0].classList.remove('block');
     icons[0].classList.add('hidden');
     icons[1].classList.remove('hidden');
-    icons[1].classList.add('block');
     menu.classList.remove('hidden');
   } else {
     menuBtn.setAttribute('aria-expanded', false);
     icons[0].classList.remove('hidden');
-    icons[0].classList.add('block');
-    icons[1].classList.remove('block');
     icons[1].classList.add('hidden');
     menu.classList.add('hidden');
   }
