@@ -5,13 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library Tailwind</title>
-
+    <link
+      href="https://assets.website-files.com/61af164800e38c4f53c60b4e/61af164800e38cd504c60bad_RevoU%20favicon.svg"
+      rel="shortcut icon"
+      type="image/x-icon" />
+    <link
+      href="https://assets.website-files.com/61af164800e38c4f53c60b4e/61af164800e38c10e6c60bac_RevoU%20centered.svg"
+      rel="apple-touch-icon" />
     <link href="/dist/output.css" rel="stylesheet" />
   </head>
   <body>
     <div class="flex flex-col h-screen">
       <header>
-        <nav class="bg-gray-800 py-4">
+        <nav class="bg-gray-800 py-3.5">
           <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div class="flex relative items-center justify-center sm:justify-start">
               <div class="absolute left-0 sm:hidden">
@@ -51,7 +57,7 @@
                   class="h-8"
                   src="https://assets.website-files.com/61af164800e38c4f53c60b4e/61af164800e38c11efc60b6d_RevoU.svg"
                   alt="RevoU Library" />
-                <div class="hidden sm:ml-6 sm:flex text-gray-300 gap-4 font-medium">
+                <div class="hidden top-10 sm:ml-6 sm:flex text-gray-300 gap-4 font-medium">
                   <a
                     class="rounded-md bg-gray-900 text-white px-3 py-2 text-sm"
                     href="index.html"
@@ -67,15 +73,20 @@
             </div>
           </div>
 
-          <!-- <div id="m-menu">
-            <div>
-              <a href="index.html" aria-current="page">Library</a>
+          <div class="sm:hidden p-2 mt-4" id="m-menu">
+            <div class="flex flex-col text-gray-300 gap-2 text-base font-medium">
+              <a
+                class="rounded-md bg-gray-900 text-white px-3 py-2"
+                href="index.html"
+                aria-current="page"
+                >Library</a
+              >
 
-              <a href="books.html">Books</a>
+              <a class="rounded-md px-3 py-2 hover:bg-gray-700" href="books.html">Books</a>
 
-              <a href="information.html">Information</a>
+              <a class="rounded-md px-3 py-2 hover:bg-gray-700" href="information.html">Information</a>
             </div>
-          </div> -->
+          </div>
         </nav>
       </header>
       <main class="flex-1 bg-library-1">Library</main>
