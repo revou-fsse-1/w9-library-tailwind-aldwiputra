@@ -56,19 +56,28 @@ form.addEventListener('submit', async (evt) => {
   );
 
   if (filteredBooks.length === 0) {
-    makeNotFoundElement();
+    cleanInnerHTML(searchResult);
+
+    searchResult.appendChild(loaderComponent());
+    makeElementVisible(searchResult);
+
+    setTimeout(makeNotFoundElement, 2000);
     return;
   }
 
   if (filteredBooks.length > 0) {
     cleanInnerHTML(searchResult);
 
-    filteredBooks.forEach((book) => {
-      const bookEl = bookComponent(book);
-      searchResult.appendChild(bookEl);
-    });
-
+    searchResult.appendChild(loaderComponent());
     makeElementVisible(searchResult);
+
+    setTimeout(() => {
+      cleanInnerHTML(searchResult);
+      filteredBooks.forEach((book) => {
+        const bookEl = bookComponent(book);
+        searchResult.appendChild(bookEl);
+      });
+    }, 2000);
   }
 });
 
@@ -84,7 +93,6 @@ function makeNotFoundElement() {
     errorEl.classList.add('text-gray-400', 'text-center');
 
     searchResult.appendChild(errorEl);
-    makeElementVisible(searchResult);
   }
 }
 
@@ -131,6 +139,14 @@ function bookContent(book) {
   contentContainer.appendChild(subjects);
 
   return contentContainer;
+}
+
+function loaderComponent() {
+  const img = document.createElement('img');
+  img.src = '../dist/loading.svg';
+  img.classList.add('mx-auto');
+
+  return img;
 }
 
 function makeElementVisible(el) {
