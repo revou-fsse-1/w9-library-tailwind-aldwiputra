@@ -44,6 +44,12 @@ const searchResult = document.querySelector('#search-result');
 form.addEventListener('submit', async (evt) => {
   evt.preventDefault();
 
+  if (searchInput.value === '') {
+    cleanInnerHTML(searchResult);
+    searchResult.classList.add('opacity-0');
+    return;
+  }
+
   const booksData = await getBooksData();
   const filteredBooks = booksData.filter(({ title }) =>
     title.toLowerCase().includes(searchInput.value.toLowerCase())
