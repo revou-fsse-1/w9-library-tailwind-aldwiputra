@@ -58,9 +58,8 @@ form.addEventListener('submit', async (evt) => {
     cleanInnerHTML(searchResult);
 
     filteredBooks.forEach((book) => {
-      const title = document.createElement('h4');
-      title.innerText = book.title;
-      searchResult.appendChild(title);
+      const bookEl = bookComponent(book);
+      searchResult.appendChild(bookEl);
     });
 
     makeElementVisible(searchResult);
@@ -68,17 +67,63 @@ form.addEventListener('submit', async (evt) => {
 });
 
 function makeNotFoundElement() {
-  const errorMsg = searchResult.querySelector('p');
+  const errorMsg = searchResult.querySelector('#error-msg');
+
   if (!errorMsg) {
     cleanInnerHTML(searchResult);
 
     const errorEl = document.createElement('p');
+    errorEl.id = 'error-msg';
     errorEl.innerText = 'No books found, please try with another keyword';
     errorEl.classList.add('text-gray-400', 'text-center');
 
     searchResult.appendChild(errorEl);
     makeElementVisible(searchResult);
   }
+}
+
+function bookComponent(book) {
+  const el = document.createElement('article');
+  el.classList.add(
+    'flex',
+    'items-center',
+    'gap-4',
+    'text-gray-400',
+    'p-4',
+    'border-[1px]',
+    'border-gray-700',
+    'border-solid'
+  );
+  const img = document.createElement('img');
+  img.src = book.image;
+  img.classList.add('aspect-[180/277]', 'w-24', 'rounded-md');
+  el.appendChild(img);
+
+  const contentContainer = bookContent(book);
+  el.appendChild(contentContainer);
+
+  return el;
+}
+
+function bookContent(book) {
+  const contentContainer = document.createElement('div');
+
+  const heading = document.createElement('h5');
+  heading.innerText = book.title;
+  heading.classList.add('font-bold', 'text-2xl', 'mb-4');
+  contentContainer.appendChild(heading);
+
+  const authors = document.createElement('b');
+  authors.innerText = `Author(s): ${book.authors.join(', ')}`;
+  authors.classList.add('mt-2');
+  contentContainer.appendChild(authors);
+
+  const subjects = document.createElement('p');
+  subjects.innerText = book.subjects.join(', ');
+  subjects.classList.add('mt-1');
+  contentContainer.appendChild(subjects);
+
+  return contentContainer;
 }
 
 function makeElementVisible(el) {
