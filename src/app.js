@@ -61,7 +61,7 @@ form.addEventListener('submit', async (evt) => {
     searchResult.appendChild(loaderComponent());
     makeElementVisible(searchResult);
 
-    setTimeout(makeNotFoundElement, 2000);
+    setTimeout(makeNotFoundElement, 1500);
     return;
   }
 
@@ -77,7 +77,7 @@ form.addEventListener('submit', async (evt) => {
         const bookEl = bookComponent(book);
         searchResult.appendChild(bookEl);
       });
-    }, 2000);
+    }, 1500);
   }
 });
 
@@ -100,6 +100,8 @@ function bookComponent(book) {
   const el = document.createElement('article');
   el.classList.add(
     'flex',
+    'flex-col',
+    'xs:flex-row',
     'items-center',
     'gap-4',
     'text-gray-400',
@@ -113,7 +115,7 @@ function bookComponent(book) {
 
   const img = document.createElement('img');
   img.src = book.image;
-  img.classList.add('aspect-[6/9]', 'w-24', 'rounded-md');
+  img.classList.add('aspect-[6/9]', 'w-[80%]', 'xs:w-28', 'rounded-md');
   el.appendChild(img);
 
   const contentContainer = bookContent(book);
