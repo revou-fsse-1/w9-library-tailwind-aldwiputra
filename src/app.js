@@ -92,11 +92,14 @@ function bookComponent(book) {
     'p-4',
     'border-[1px]',
     'border-gray-700',
-    'border-solid'
+    'border-solid',
+    'border-b-0',
+    'last:border-b-[1px]'
   );
+
   const img = document.createElement('img');
   img.src = book.image;
-  img.classList.add('aspect-[180/277]', 'w-24', 'rounded-md');
+  img.classList.add('aspect-[6/9]', 'w-24', 'rounded-md');
   el.appendChild(img);
 
   const contentContainer = bookContent(book);
@@ -110,17 +113,15 @@ function bookContent(book) {
 
   const heading = document.createElement('h5');
   heading.innerText = book.title;
-  heading.classList.add('font-bold', 'text-2xl', 'mb-4');
+  heading.classList.add('font-bold', 'text-2xl', 'mb-3');
   contentContainer.appendChild(heading);
 
   const authors = document.createElement('b');
   authors.innerText = `Author(s): ${book.authors.join(', ')}`;
-  authors.classList.add('mt-2');
   contentContainer.appendChild(authors);
 
   const subjects = document.createElement('p');
   subjects.innerText = book.subjects.join(', ');
-  subjects.classList.add('mt-1');
   contentContainer.appendChild(subjects);
 
   return contentContainer;
