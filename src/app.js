@@ -98,14 +98,23 @@ function makeNotFoundElement(searchResult) {
 
 function bookComponent(book, page = 'search') {
   const el = document.createElement('article');
+  el.classList.add('border-[1px]', 'border-gray-700', 'border-solid', 'px-4', 'text-gray-400');
   const isSearch = page === 'search';
 
+  const imgWrapper = document.createElement('div');
+  imgWrapper.classList.add(
+    'aspect-[6/9]',
+    'w-[80%]',
+    isSearch ? 'rounded-md' : 'rounded-none',
+    'bg-gradient-to-br',
+    'from-neutral-400',
+    'to-zinc-600'
+  );
   const img = document.createElement('img');
   img.src = book.image;
-  img.classList.add('aspect-[6/9]', 'w-[80%]', isSearch ? 'rounded-md' : 'rounded-none');
-  el.appendChild(img);
-
-  el.classList.add('border-[1px]', 'border-gray-700', 'border-solid', 'px-4', 'text-gray-400');
+  img.classList.add('aspect-[6/9]', 'w-[100%]', isSearch ? 'rounded-md' : 'rounded-none');
+  imgWrapper.appendChild(img);
+  el.appendChild(imgWrapper);
 
   if (page === 'search') {
     el.classList.add(
@@ -121,11 +130,11 @@ function bookComponent(book, page = 'search') {
       'last:border-b-[1px]'
     );
 
-    img.classList.add('xs:w-28');
+    imgWrapper.classList.add('xs:w-28');
   } else {
     el.classList.add('pb-4', 'rounded-lg', 'text-center');
 
-    img.classList.add('w-48', 'mx-auto');
+    imgWrapper.classList.add('w-48', 'mx-auto');
   }
 
   const contentContainer = bookContent(book, page === 'search' ? page : 'books');
