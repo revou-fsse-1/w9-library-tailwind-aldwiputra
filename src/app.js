@@ -61,7 +61,7 @@ if (window.location.pathname === '/src' || window.location.pathname === '/src/in
       searchResult.appendChild(loaderComponent());
       makeElementVisible(searchResult);
 
-      setTimeout(makeNotFoundElement, 1500);
+      setTimeout(() => makeNotFoundElement(searchResult), 1500);
       return;
     }
 
@@ -81,7 +81,7 @@ if (window.location.pathname === '/src' || window.location.pathname === '/src/in
     }
   });
 }
-function makeNotFoundElement() {
+function makeNotFoundElement(searchResult) {
   const errorMsg = searchResult.querySelector('#error-msg');
 
   if (!errorMsg) {
@@ -96,37 +96,45 @@ function makeNotFoundElement() {
   }
 }
 
-function bookComponent(book) {
+function bookComponent(book, page = 'search') {
   const el = document.createElement('article');
-  el.classList.add(
-    'flex',
-    'flex-col',
-    'xs:flex-row',
-    'items-center',
-    'hover:bg-gray-700',
-    'cursor-pointer',
-    'gap-4',
-    'text-gray-400',
-    'p-4',
-    'border-[1px]',
-    'border-gray-700',
-    'border-solid',
-    'border-b-0',
-    'last:border-b-[1px]'
-  );
+  const isSearch = page === 'search';
 
   const img = document.createElement('img');
   img.src = book.image;
-  img.classList.add('aspect-[6/9]', 'w-[80%]', 'xs:w-28', 'rounded-md');
+  img.classList.add('aspect-[6/9]', 'w-[80%]', isSearch ? 'rounded-md' : 'rounded-none');
   el.appendChild(img);
 
-  const contentContainer = bookContent(book);
+  el.classList.add('border-[1px]', 'border-gray-700', 'border-solid', 'px-4', 'text-gray-400');
+
+  if (page === 'search') {
+    el.classList.add(
+      'flex',
+      'flex-col',
+      'xs:flex-row',
+      'items-center',
+      'hover:bg-gray-700',
+      'cursor-pointer',
+      'gap-4',
+      'py-4',
+      'border-b-0',
+      'last:border-b-[1px]'
+    );
+
+    img.classList.add('xs:w-28');
+  } else {
+    el.classList.add('pb-4', 'rounded-lg', 'text-center');
+
+    img.classList.add('w-48', 'mx-auto');
+  }
+
+  const contentContainer = bookContent(book, page === 'search' ? page : 'books');
   el.appendChild(contentContainer);
 
   return el;
 }
 
-function bookContent(book) {
+function bookContent(book, page = 'search') {
   const contentContainer = document.createElement('div');
 
   const heading = document.createElement('h5');
@@ -138,9 +146,13 @@ function bookContent(book) {
   authors.innerText = `Author(s): ${book.authors.join(', ')}`;
   contentContainer.appendChild(authors);
 
-  const subjects = document.createElement('p');
-  subjects.innerText = book.subjects.join(', ');
-  contentContainer.appendChild(subjects);
+  if (page === 'search') {
+    const subjects = document.createElement('p');
+    subjects.innerText = book.subjects.join(', ');
+    contentContainer.appendChild(subjects);
+  } else {
+    heading.classList.add('mt-6', 'text-white');
+  }
 
   return contentContainer;
 }
@@ -148,7 +160,7 @@ function bookContent(book) {
 function loaderComponent() {
   const img = document.createElement('img');
   img.src = '../dist/loading.svg';
-  img.classList.add('mx-auto');
+  img.classList.add('col-span-full', 'mx-auto');
 
   return img;
 }
@@ -166,6 +178,8 @@ function cleanInnerHTML(el) {
 /* ----------------- Pagination Functionality ----------------- */
 
 if (window.location.pathname === '/src/books.html') {
+  checkAndRedirect();
+
   const bookListContainer = document.querySelector('#book-list-container');
   const navItems = Array.from(document.querySelectorAll('.nav-container > li'));
   const pageParam = getParamValue('page');
@@ -174,8 +188,14 @@ if (window.location.pathname === '/src/books.html') {
   );
 
   filteredNavItems.forEach((item) => item.classList.add('text-white', 'bg-gray-700'));
-
   addListener(navItems);
+
+  bookListContainer.appendChild(loaderComponent());
+
+  setTimeout(() => {
+    cleanInnerHTML(bookListContainer);
+    loadBooks(bookListContainer);
+  }, 1000);
 }
 
 function addPageQueryParam(page) {
@@ -187,6 +207,23 @@ function addPageQueryParam(page) {
 function getParamValue(key) {
   const param = new URLSearchParams(window.location.search);
   return param.get(key);
+}
+
+function checkAndRedirect() {
+  const pageParam = getParamValue('page');
+
+  if (!pageParam || +pageParam < 1) addPageQueryParam(1);
+  if (+pageParam > 2) addPageQueryParam(2);
+}
+
+async function loadBooks(bookListContainer) {
+  const booksData = await getBooksData();
+  const pageParam = getParamValue('page');
+  const slicedBooks = booksData.slice(pageParam === '1' ? 0 : 12, pageParam === '1' ? 12 : 20);
+
+  slicedBooks.forEach((book) => {
+    bookListContainer.appendChild(bookComponent(book, 'books'));
+  });
 }
 
 function addListener(navItems) {

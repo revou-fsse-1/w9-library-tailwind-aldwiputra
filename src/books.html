@@ -96,9 +96,9 @@
         </nav>
       </header>
 
-      <main class="flex-1 bg-cover bg-library-2 bg-center bg-no-repeat px-6">
+      <main class="flex-1 bg-cover bg-library-2 bg-center bg-no-repeat px-6 overflow-y-scroll">
         <div
-          class="container bg-gray-800 max-w-screen-xl mx-auto px-6 py-8 text-white mt-6 rounded-lg">
+          class="container bg-gray-800 max-w-screen-xl mx-auto px-6 py-8 text-white my-6 rounded-lg">
           <nav>
             <ul class="nav-container mx-auto flex w-fit text-gray-400">
               <li
@@ -119,7 +119,9 @@
               </li>
             </ul>
           </nav>
-          <div id="book-list-container">Books</div>
+          <div
+            id="book-list-container"
+            class="my-6 min-h-[6rem] grid gap-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-4"></div>
           <nav>
             <ul class="nav-container mx-auto flex w-fit text-gray-400">
               <li
