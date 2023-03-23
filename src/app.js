@@ -166,7 +166,15 @@ function cleanInnerHTML(el) {
 /* ----------------- Pagination Functionality ----------------- */
 
 if (window.location.pathname === '/src/books.html') {
+  const bookListContainer = document.querySelector('#book-list-container');
   const navItems = Array.from(document.querySelectorAll('.nav-container > li'));
+  const pageParam = getParamValue('page');
+  const filteredNavItems = navItems.filter(({ innerText }) =>
+    pageParam ? innerText === pageParam : innerText === '1'
+  );
+
+  filteredNavItems.forEach((item) => item.classList.add('text-white', 'bg-gray-700'));
+
   addListener(navItems);
 }
 
