@@ -35,52 +35,52 @@ menuBtn.addEventListener('click', (event) => {
   }
 });
 
-/* ---------------- Search Functionality ---------------- */
+/* ------------------ Search Functionality ------------------ */
+if (window.location.pathname === '/src' || window.location.pathname === '/src/index.html') {
+  const form = document.querySelector('#form-search');
+  const searchInput = document.querySelector('#search-input');
+  const searchResult = document.querySelector('#search-result');
 
-const form = document.querySelector('#form-search');
-const searchInput = document.querySelector('#search-input');
-const searchResult = document.querySelector('#search-result');
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
 
-form.addEventListener('submit', async (evt) => {
-  evt.preventDefault();
-
-  if (searchInput.value === '') {
-    cleanInnerHTML(searchResult);
-    searchResult.classList.add('opacity-0');
-    return;
-  }
-
-  const booksData = await getBooksData();
-  const filteredBooks = booksData.filter(({ title }) =>
-    title.toLowerCase().includes(searchInput.value.toLowerCase())
-  );
-
-  if (filteredBooks.length === 0) {
-    cleanInnerHTML(searchResult);
-
-    searchResult.appendChild(loaderComponent());
-    makeElementVisible(searchResult);
-
-    setTimeout(makeNotFoundElement, 1500);
-    return;
-  }
-
-  if (filteredBooks.length > 0) {
-    cleanInnerHTML(searchResult);
-
-    searchResult.appendChild(loaderComponent());
-    makeElementVisible(searchResult);
-
-    setTimeout(() => {
+    if (searchInput.value === '') {
       cleanInnerHTML(searchResult);
-      filteredBooks.forEach((book) => {
-        const bookEl = bookComponent(book);
-        searchResult.appendChild(bookEl);
-      });
-    }, 1500);
-  }
-});
+      searchResult.classList.add('opacity-0');
+      return;
+    }
 
+    const booksData = await getBooksData();
+    const filteredBooks = booksData.filter(({ title }) =>
+      title.toLowerCase().includes(searchInput.value.toLowerCase())
+    );
+
+    if (filteredBooks.length === 0) {
+      cleanInnerHTML(searchResult);
+
+      searchResult.appendChild(loaderComponent());
+      makeElementVisible(searchResult);
+
+      setTimeout(makeNotFoundElement, 1500);
+      return;
+    }
+
+    if (filteredBooks.length > 0) {
+      cleanInnerHTML(searchResult);
+
+      searchResult.appendChild(loaderComponent());
+      makeElementVisible(searchResult);
+
+      setTimeout(() => {
+        cleanInnerHTML(searchResult);
+        filteredBooks.forEach((book) => {
+          const bookEl = bookComponent(book);
+          searchResult.appendChild(bookEl);
+        });
+      }, 1500);
+    }
+  });
+}
 function makeNotFoundElement() {
   const errorMsg = searchResult.querySelector('#error-msg');
 
@@ -103,6 +103,8 @@ function bookComponent(book) {
     'flex-col',
     'xs:flex-row',
     'items-center',
+    'hover:bg-gray-700',
+    'cursor-pointer',
     'gap-4',
     'text-gray-400',
     'p-4',
@@ -159,4 +161,55 @@ function makeElementVisible(el) {
 
 function cleanInnerHTML(el) {
   el.innerHTML = '';
+}
+
+/* ----------------- Pagination Functionality ----------------- */
+
+if (window.location.pathname === '/src/books.html') {
+  const navItems = Array.from(document.querySelectorAll('.nav-container > li'));
+  addListener(navItems);
+}
+
+function addPageQueryParam(page) {
+  const url = new URL(window.location);
+  url.searchParams.set('page', page.toString());
+  window.location.href = url.toString();
+}
+
+function getParamValue(key) {
+  const param = new URLSearchParams(window.location.search);
+  return param.get(key);
+}
+
+function addListener(navItems) {
+  navItems.forEach((navItem) => {
+    switch (navItem.innerText) {
+      case 'Previous':
+        navItem.addEventListener('click', (evt) => {
+          const pageParam = getParamValue('page');
+          if (+pageParam > 1) {
+            addPageQueryParam(+pageParam - 1);
+          }
+        });
+        break;
+      case '1':
+        navItem.addEventListener('click', (evt) => {
+          addPageQueryParam(1);
+        });
+        break;
+      case '2':
+        navItem.addEventListener('click', (evt) => {
+          addPageQueryParam(2);
+        });
+        break;
+      case 'Next':
+        navItem.addEventListener('click', (evt) => {
+          const pageParam = getParamValue('page');
+          if (+pageParam < 2) {
+            addPageQueryParam(+pageParam + 1);
+          }
+        });
+        break;
+    }
+  });
 }
