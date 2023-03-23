@@ -101,16 +101,18 @@ function bookComponent(book, page = 'search') {
   el.classList.add('border-[1px]', 'border-gray-700', 'border-solid', 'px-4', 'text-gray-400');
   const isSearch = page === 'search';
 
+  // Image Wrapper
   const imgWrapper = document.createElement('div');
+  const img = document.createElement('img');
   imgWrapper.classList.add(
     'aspect-[6/9]',
     'w-[80%]',
+    'max-w-[100%]',
     isSearch ? 'rounded-md' : 'rounded-none',
     'bg-gradient-to-br',
     'from-neutral-400',
     'to-zinc-600'
   );
-  const img = document.createElement('img');
   img.src = book.image;
   img.classList.add('aspect-[6/9]', 'w-[100%]', isSearch ? 'rounded-md' : 'rounded-none');
   imgWrapper.appendChild(img);
@@ -133,10 +135,10 @@ function bookComponent(book, page = 'search') {
     imgWrapper.classList.add('xs:w-28');
   } else {
     el.classList.add('pb-4', 'rounded-lg', 'text-center');
-
-    imgWrapper.classList.add('w-48', 'mx-auto');
+    imgWrapper.classList.add('sm:w-44', 'mx-auto');
   }
 
+  // Book Content (title, authors, subjects)
   const contentContainer = bookContent(book, page === 'search' ? page : 'books');
   el.appendChild(contentContainer);
 
@@ -197,7 +199,7 @@ if (window.location.pathname === '/src/books.html') {
   );
 
   filteredNavItems.forEach((item) => item.classList.add('text-white', 'bg-gray-700'));
-  addListener(navItems);
+  addListeners(navItems);
 
   bookListContainer.appendChild(loaderComponent());
 
@@ -235,7 +237,7 @@ async function loadBooks(bookListContainer) {
   });
 }
 
-function addListener(navItems) {
+function addListeners(navItems) {
   navItems.forEach((navItem) => {
     switch (navItem.innerText) {
       case 'Previous':
