@@ -36,7 +36,12 @@ menuBtn.addEventListener('click', (event) => {
 });
 
 /* ------------------ Search Functionality ------------------ */
-if (window.location.pathname === '/src' || window.location.pathname === '/src/index.html') {
+if (
+  window.location.pathname === '/src' ||
+  window.location.pathname === '/src/index.html' ||
+  window.location.pathname === '/' ||
+  window.location.pathname === '/index.html'
+) {
   const form = document.querySelector('#form-search');
   const searchInput = document.querySelector('#search-input');
   const searchResult = document.querySelector('#search-result');
@@ -98,7 +103,14 @@ function makeNotFoundElement(searchResult) {
 
 function bookComponent(book, page = 'search') {
   const el = document.createElement('article');
-  el.classList.add('border-[1px]', 'border-gray-700', 'border-solid', 'px-4', 'text-gray-400');
+  el.classList.add(
+    'border-[1px]',
+    'border-gray-700',
+    'border-solid',
+    'px-4',
+    'text-gray-400'
+  );
+
   const isSearch = page === 'search';
 
   // Image Wrapper
@@ -114,7 +126,11 @@ function bookComponent(book, page = 'search') {
     'to-zinc-600'
   );
   img.src = book.image;
-  img.classList.add('aspect-[6/9]', 'w-[100%]', isSearch ? 'rounded-md' : 'rounded-none');
+  img.classList.add(
+    'aspect-[6/9]',
+    'w-[100%]',
+    isSearch ? 'rounded-md' : 'rounded-none'
+  );
   imgWrapper.appendChild(img);
   el.appendChild(imgWrapper);
 
@@ -139,7 +155,10 @@ function bookComponent(book, page = 'search') {
   }
 
   // Book Content (title, authors, subjects)
-  const contentContainer = bookContent(book, page === 'search' ? page : 'books');
+  const contentContainer = bookContent(
+    book,
+    page === 'search' ? page : 'books'
+  );
   el.appendChild(contentContainer);
 
   return el;
@@ -188,7 +207,10 @@ function cleanInnerHTML(el) {
 
 /* ----------------- Pagination Functionality ----------------- */
 
-if (window.location.pathname === '/src/books.html') {
+if (
+  window.location.pathname === '/src/books.html' ||
+  window.location.pathname === '/books.html'
+) {
   checkAndRedirect();
 
   const bookListContainer = document.querySelector('#book-list-container');
@@ -198,7 +220,9 @@ if (window.location.pathname === '/src/books.html') {
     pageParam ? innerText === pageParam : innerText === '1'
   );
 
-  filteredNavItems.forEach((item) => item.classList.add('text-white', 'bg-gray-700'));
+  filteredNavItems.forEach((item) =>
+    item.classList.add('text-white', 'bg-gray-700')
+  );
   addListeners(navItems);
 
   bookListContainer.appendChild(loaderComponent());
@@ -230,7 +254,10 @@ function checkAndRedirect() {
 async function loadBooks(bookListContainer) {
   const booksData = await getBooksData();
   const pageParam = getParamValue('page');
-  const slicedBooks = booksData.slice(pageParam === '1' ? 0 : 12, pageParam === '1' ? 12 : 20);
+  const slicedBooks = booksData.slice(
+    pageParam === '1' ? 0 : 12,
+    pageParam === '1' ? 12 : 20
+  );
 
   slicedBooks.forEach((book) => {
     bookListContainer.appendChild(bookComponent(book, 'books'));
