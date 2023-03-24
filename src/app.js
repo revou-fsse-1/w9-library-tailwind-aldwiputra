@@ -189,7 +189,7 @@ function bookContent(book, page = 'search') {
 
 function loaderComponent() {
   const img = document.createElement('img');
-  img.src = '../dist/loading.svg';
+  img.src = '/dist/assets/loading.svg';
   img.classList.add('col-span-full', 'mx-auto');
 
   return img;
