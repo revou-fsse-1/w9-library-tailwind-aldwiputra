@@ -37,7 +37,7 @@ menuBtn.addEventListener('click', (event) => {
 
 /* ------------------ Search Functionality ------------------ */
 if (
-  window.location.pathname === '/src' ||
+  window.location.pathname === '/src/' ||
   window.location.pathname === '/src/index.html' ||
   window.location.pathname === '/' ||
   window.location.pathname === '/index.html'
