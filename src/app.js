@@ -132,7 +132,7 @@ function bookComponent(book, page = 'search') {
       'last:border-b-[1px]'
     );
 
-    imgWrapper.classList.add('xs:w-28');
+    imgWrapper.classList.add('xs:w-28', 'shrink-0');
   } else {
     el.classList.add('pb-4', 'rounded-lg', 'text-center');
     imgWrapper.classList.add('sm:w-44', 'mx-auto');
